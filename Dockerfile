@@ -1,7 +1,8 @@
 # syntax=docker.io/docker/dockerfile:1
 
 # Stage 1: Build
-FROM mcr.microsoft.com/dotnet/sdk:9.0-alpine AS build
+FROM --platform=$BUILDPLATFORM mcr.microsoft.com/dotnet/sdk:9.0-alpine AS build
+ARG TARGETARCH
 WORKDIR /src
 RUN apk add --no-cache git
 RUN git clone --depth 1 https://github.com/TechnitiumSoftware/TechnitiumLibrary.git TechnitiumLibrary
@@ -9,7 +10,8 @@ COPY . DnsServer/
 RUN dotnet build TechnitiumLibrary/TechnitiumLibrary.ByteTree/TechnitiumLibrary.ByteTree.csproj -c Release && \
     dotnet build TechnitiumLibrary/TechnitiumLibrary.Net/TechnitiumLibrary.Net.csproj -c Release && \
     dotnet build TechnitiumLibrary/TechnitiumLibrary.Security.OTP/TechnitiumLibrary.Security.OTP.csproj -c Release
-RUN dotnet publish DnsServer/DnsServerApp/DnsServerApp.csproj -c Release -r linux-musl-x64 --self-contained true -p:PublishTrimmed=true -o /app/publish
+RUN if [ "$TARGETARCH" = "arm64" ]; then RID="linux-musl-arm64"; else RID="linux-musl-x64"; fi && \
+    dotnet publish DnsServer/DnsServerApp/DnsServerApp.csproj -c Release -r $RID --self-contained true -p:PublishTrimmed=true -o /app/publish
 
 # Stage 2: Intermediate Assembly
 FROM mcr.microsoft.com/dotnet/runtime-deps:9.0-alpine AS base
