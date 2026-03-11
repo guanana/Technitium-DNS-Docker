@@ -9,11 +9,11 @@ COPY . DnsServer/
 RUN dotnet build TechnitiumLibrary/TechnitiumLibrary.ByteTree/TechnitiumLibrary.ByteTree.csproj -c Release && \
     dotnet build TechnitiumLibrary/TechnitiumLibrary.Net/TechnitiumLibrary.Net.csproj -c Release && \
     dotnet build TechnitiumLibrary/TechnitiumLibrary.Security.OTP/TechnitiumLibrary.Security.OTP.csproj -c Release
-RUN dotnet publish DnsServer/DnsServerApp/DnsServerApp.csproj -c Release -r linux-musl-x64 --self-contained true -p:PublishTrimmed=true -p:PublishSingleFile=true -o /app/publish
+RUN dotnet publish DnsServer/DnsServerApp/DnsServerApp.csproj -c Release -r linux-musl-x64 --self-contained true -p:PublishTrimmed=true -o /app/publish
 
 # Stage 2: Intermediate Assembly
 FROM mcr.microsoft.com/dotnet/runtime-deps:9.0-alpine AS base
-RUN apk add --no-cache tzdata ca-certificates && \
+RUN apk add --no-cache tzdata ca-certificates icu-libs && \
     mkdir -p /etc/dns /opt/technitium/dns
 COPY --from=build /app/publish /app
 
