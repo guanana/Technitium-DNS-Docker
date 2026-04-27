@@ -14,7 +14,7 @@ RUN if [ "$TARGETARCH" = "arm64" ]; then RID="linux-musl-arm64"; else RID="linux
     dotnet publish DnsServer/DnsServerApp/DnsServerApp.csproj -c Release -r $RID --self-contained true -p:PublishTrimmed=true -o /app/publish
 
 # Stage 2: Intermediate Assembly
-FROM mcr.microsoft.com/dotnet/runtime-deps:9.0-alpine AS base
+FROM mcr.microsoft.com/dotnet/runtime-deps:10.0-alpine AS base
 RUN apk add --no-cache tzdata ca-certificates icu-libs && \
     mkdir -p /etc/dns /opt/technitium/dns
 COPY --from=build /app/publish /app
