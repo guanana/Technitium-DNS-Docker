@@ -5,6 +5,7 @@ FROM --platform=$BUILDPLATFORM mcr.microsoft.com/dotnet/sdk:10.0-alpine AS build
 ARG TARGETARCH
 WORKDIR /src
 RUN apk add --no-cache git
+ADD https://api.github.com/repos/TechnitiumSoftware/TechnitiumLibrary/git/refs/heads/master /tmp/technitium-lib-version.json
 RUN git clone --depth 1 https://github.com/TechnitiumSoftware/TechnitiumLibrary.git TechnitiumLibrary
 COPY . DnsServer/
 RUN dotnet build TechnitiumLibrary/TechnitiumLibrary.ByteTree/TechnitiumLibrary.ByteTree.csproj -c Release && \
