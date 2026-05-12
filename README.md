@@ -3,7 +3,7 @@
   
   # Technitium DNS Server - Optimized Alpine Docker Image
   
-  **Lightweight** • **Single-Layer** • **Under 60MB**
+  **Lightweight** • **Single-Layer** • **Under 65MB**
 
   [![Docker Build & Publish](https://github.com/guanana/Technitium-DNS-Docker/actions/workflows/docker-publish.yml/badge.svg)](https://github.com/guanana/Technitium-DNS-Docker/actions/workflows/docker-publish.yml)
 </div>
@@ -12,7 +12,7 @@
 
 This repository houses an automated workflow to build an alternative, highly optimized Alpine Linux Docker image for the open-source **[Technitium DNS Server](https://technitium.com/dns/)**.
 
-By employing `.NET` trimming and advanced multi-stage layer squashing, this project delivers the fully-featured DNS Server inside a featherweight **~59MB single-layer image** instead of the official ~175MB multi-layer container.
+By employing `.NET` trimming and advanced multi-stage layer squashing, this project delivers the fully-featured DNS Server inside a featherweight **~63MB single-layer image** instead of the official ~175MB multi-layer container.
 
 ## ⚖️ The Architecture Compromise
 Achieving a sub-50MB final footprint requires dropping heavily bloated system dependencies.
